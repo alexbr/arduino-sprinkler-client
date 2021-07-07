@@ -14,7 +14,7 @@
 // Internet setup
 IPAddress gatewayIP(192, 168, 10, 1);
 WiFiClient client;
-const char sprinklerReceiver[] = "sprinkler-zone2.rodriguez.lan";
+const char* sprinklerReceiver = RECEIVER_URL;
 
 unsigned long checkTriggerTime = 0;
 
