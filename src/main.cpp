@@ -1,7 +1,5 @@
 /********************************************************
-
-  Alex's sprinkler control
-
+ * Alex's sprinkler control
  *********************************************************/
 
 #include "main.h"
@@ -58,8 +56,8 @@ bool connect() {
          delay(500);
       }
    }
-   
-   Serial.println("");
+
+   Serial.println(); 
    Serial.println(WiFi.localIP());
 
    WiFi.noLowPowerMode();
@@ -73,42 +71,18 @@ void checkTrigger() {
    
    client.stop();
    if (digitalRead(TRIGGER_PIN_IN) == HIGH) {
-      printStringLn("sprinkler zone on");
+      Serial.println("sprinkler zone on");
       if (WiFi.ping(sprinklerReceiver) >= 0 && client.connect(sprinklerReceiver, 80)) {
          client.println("GET /on HTTP/1.1");
          client.println("Connection: close");
          client.println();
       }
    } else {
-      printStringLn("sprinkler zone off");
+      Serial.println("sprinkler zone off");
       if (WiFi.ping(sprinklerReceiver) >= 0 && client.connect(sprinklerReceiver, 80)) {
          client.println("GET /off HTTP/1.1");
          client.println("Connection: close");
          client.println();
       }
    }
-}
-
-void printString(const char *str) {
-   const char *p = str;
-   while (*p) {
-      Serial.print(*p);
-      p++;
-   }
-}
-
-void printStringLn(const char *str) {
-   printString(str);
-   Serial.print('\n');
-}
-
-void printStringP(const char *str) {
-   char c[strlen_P(str) + 1];
-   strcpy_P(c, str);
-   printString(c);
-}
-
-void printStringLnP(const char *str) {
-   printStringP(str);
-   Serial.print('\n');
 }
